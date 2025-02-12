@@ -1,5 +1,6 @@
 -- name: CreateSalesReports :one
 INSERT INTO sales_reports (
+    s_report_id,
     report_type,
     start_date,
     end_date,
@@ -10,7 +11,8 @@ INSERT INTO sales_reports (
     $2,
     $3,
     $4,
-    $5
+    $5,
+    $6
 ) RETURNING *;
 
 -- name: GetSalesReportsList :many

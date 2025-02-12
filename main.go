@@ -10,7 +10,6 @@ import (
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 
-	db "AnalyticsAndReporting/db/sqlc"
 	"AnalyticsAndReporting/util"
 )
 
@@ -32,8 +31,7 @@ func main() {
 	defer conn.Close()
 
 	// InitMigration(config.MigrationURL, config.DBSource)
-	// store := db.New(conn)
-	db.New(conn)
+	// store := db.NewStore(conn)
 }
 
 func InitMigration(migrationURL, DBSource string) {

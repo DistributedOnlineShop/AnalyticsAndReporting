@@ -1,12 +1,14 @@
 -- name: CreateUserReport :one
 INSERT INTO user_reports (
+    u_report_id,
     user_id,
     report_type,
     total_value
 ) VALUES (
     $1,
     $2,
-    $3
+    $3,
+    $4
 ) RETURNING *;
 
 -- name: GetUserReportById :one
@@ -24,7 +26,7 @@ FROM
 WHERE 
     user_id = $1;
 
--- name: GetUserReportByTotalValue :many
+-- name: GetUserReportByOverTotalValue :many
 SELECT 
     * 
 FROM 

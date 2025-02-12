@@ -14,24 +14,32 @@ import (
 
 const createUserReport = `-- name: CreateUserReport :one
 INSERT INTO user_reports (
+    u_report_id,
     user_id,
     report_type,
     total_value
 ) VALUES (
     $1,
     $2,
-    $3
+    $3,
+    $4
 ) RETURNING u_report_id, user_id, report_type, total_value, created_at
 `
 
 type CreateUserReportParams struct {
+	UReportID  uuid.UUID      `json:"u_report_id"`
 	UserID     uuid.UUID      `json:"user_id"`
 	ReportType string         `json:"report_type"`
 	TotalValue pgtype.Numeric `json:"total_value"`
 }
 
 func (q *Queries) CreateUserReport(ctx context.Context, arg CreateUserReportParams) (UserReport, error) {
-	row := q.db.QueryRow(ctx, createUserReport, arg.UserID, arg.ReportType, arg.TotalValue)
+	row := q.db.QueryRow(ctx, createUserReport,
+		arg.UReportID,
+		arg.UserID,
+		arg.ReportType,
+		arg.TotalValue,
+	)
 	var i UserReport
 	err := row.Scan(
 		&i.UReportID,
@@ -64,7 +72,7 @@ func (q *Queries) GetUserReportById(ctx context.Context, uReportID uuid.UUID) (U
 	return i, err
 }
 
-const getUserReportByTotalValue = `-- name: GetUserReportByTotalValue :many
+const getUserReportByOverTotalValue = `-- name: GetUserReportByOverTotalValue :many
 SELECT 
     u_report_id, user_id, report_type, total_value, created_at 
 FROM 
@@ -73,8 +81,8 @@ WHERE
     total_value >= $1
 `
 
-func (q *Queries) GetUserReportByTotalValue(ctx context.Context, totalValue pgtype.Numeric) ([]UserReport, error) {
-	rows, err := q.db.Query(ctx, getUserReportByTotalValue, totalValue)
+func (q *Queries) GetUserReportByOverTotalValue(ctx context.Context, totalValue pgtype.Numeric) ([]UserReport, error) {
+	rows, err := q.db.Query(ctx, getUserReportByOverTotalValue, totalValue)
 	if err != nil {
 		return nil, err
 	}

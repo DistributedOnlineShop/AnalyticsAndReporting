@@ -18,7 +18,7 @@ type Querier interface {
 	GetSalesReportsById(ctx context.Context, sReportID uuid.UUID) (SalesReport, error)
 	GetSalesReportsList(ctx context.Context) ([]SalesReport, error)
 	GetUserReportById(ctx context.Context, uReportID uuid.UUID) (UserReport, error)
-	GetUserReportByTotalValue(ctx context.Context, totalValue pgtype.Numeric) ([]UserReport, error)
+	GetUserReportByOverTotalValue(ctx context.Context, totalValue pgtype.Numeric) ([]UserReport, error)
 	GetUserReportByUserId(ctx context.Context, userID uuid.UUID) ([]UserReport, error)
 }
 

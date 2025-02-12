@@ -14,6 +14,7 @@ import (
 
 const createSalesReports = `-- name: CreateSalesReports :one
 INSERT INTO sales_reports (
+    s_report_id,
     report_type,
     start_date,
     end_date,
@@ -24,11 +25,13 @@ INSERT INTO sales_reports (
     $2,
     $3,
     $4,
-    $5
+    $5,
+    $6
 ) RETURNING s_report_id, report_type, start_date, end_date, total_sales, total_orders, created_at
 `
 
 type CreateSalesReportsParams struct {
+	SReportID   uuid.UUID        `json:"s_report_id"`
 	ReportType  string           `json:"report_type"`
 	StartDate   pgtype.Timestamp `json:"start_date"`
 	EndDate     pgtype.Timestamp `json:"end_date"`
@@ -38,6 +41,7 @@ type CreateSalesReportsParams struct {
 
 func (q *Queries) CreateSalesReports(ctx context.Context, arg CreateSalesReportsParams) (SalesReport, error) {
 	row := q.db.QueryRow(ctx, createSalesReports,
+		arg.SReportID,
 		arg.ReportType,
 		arg.StartDate,
 		arg.EndDate,
