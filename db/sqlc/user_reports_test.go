@@ -15,8 +15,8 @@ func CreateRandomUserReport(t *testing.T) UserReport {
 	data := CreateUserReportParams{
 		UReportID:  util.CreateUUID(),
 		UserID:     util.CreateUUID(),
-		ReportType: util.GenerateRandomUserReportType(),
-		TotalValue: util.GenerateRandomNumeric(),
+		ReportType: util.GenerateUserReportType(),
+		TotalValue: util.GenerateNumeric(),
 	}
 
 	UserReport, err := testStore.CreateUserReport(context.Background(), data)

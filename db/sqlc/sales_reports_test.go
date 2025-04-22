@@ -14,11 +14,11 @@ import (
 func CreateRandomSalesReports(t *testing.T) SalesReport {
 	data := CreateSalesReportsParams{
 		SReportID:   util.CreateUUID(),
-		ReportType:  util.GenerateRandomSalesReportType(),
+		ReportType:  util.GenerateSalesReportType(),
 		StartDate:   pgtype.Timestamp{Time: time.Now(), Valid: true},
-		EndDate:     util.GenerateRandomDate(),
-		TotalSales:  util.GenerateRandomNumeric(),
-		TotalOrders: util.GenerateRandomInt4(),
+		EndDate:     util.GenerateDate(),
+		TotalSales:  util.GenerateNumeric(),
+		TotalOrders: util.GenerateInt4(),
 	}
 
 	SalesReport, err := testStore.CreateSalesReports(context.Background(), data)

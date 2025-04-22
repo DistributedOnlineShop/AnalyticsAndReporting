@@ -8,17 +8,17 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-func GenerateRandomSalesReportType() string {
+func GenerateSalesReportType() string {
 	reportTypes := []string{"Daily Sales", "Weekly Sales", "Monthly Sales", "Quarterly Sales", "Annual Sales"}
 	return reportTypes[rand.IntN(len(reportTypes))]
 }
 
-func GenerateRandomUserReportType() string {
+func GenerateUserReportType() string {
 	reportTypes := []string{"New User Report", "Active User Report", "User Retention Report", "User Acquisition Report", "User Demographics Report"}
 	return reportTypes[rand.IntN(len(reportTypes))]
 }
 
-func GenerateRandomDate() pgtype.Timestamp {
+func GenerateDate() pgtype.Timestamp {
 	daysOffset := rand.IntN(365) - 180
 	return pgtype.Timestamp{
 		Time:  time.Now().Add(time.Duration(daysOffset) * 24 * time.Hour),
@@ -26,7 +26,7 @@ func GenerateRandomDate() pgtype.Timestamp {
 	}
 }
 
-func GenerateRandomNumeric() pgtype.Numeric {
+func GenerateNumeric() pgtype.Numeric {
 	intPart := rand.IntN(100000)
 	fracPart := rand.IntN(100)
 	value := int64(intPart) + int64(fracPart)/100.0
@@ -38,7 +38,7 @@ func GenerateRandomNumeric() pgtype.Numeric {
 	}
 }
 
-func GenerateRandomInt4() pgtype.Int4 {
+func GenerateInt4() pgtype.Int4 {
 	return pgtype.Int4{
 		Int32: rand.Int32N(500) + 10,
 		Valid: true,
